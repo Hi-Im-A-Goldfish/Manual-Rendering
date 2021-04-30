@@ -66,79 +66,79 @@ namespace ManualGraphics.Game
         float[] vertices_cube =
         {
             // Front face - 2 triangles
-            -.5f,  .5f, -.5f,
-             .5f,  .5f, -.5f,
-            -.5f, -.5f, -.5f,
-            -.5f, -.5f, -.5f,
-             .5f,  .5f, -.5f,
-             .5f, -.5f, -.5f,
+            -1.0f,  1.0f, -1.0f,
+             1.0f,  1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
+             1.0f,  1.0f, -1.0f,
+             1.0f, -1.0f, -1.0f,
 
             // Top Face
-            -.5f,  .5f,  .5f,
-             .5f,  .5f,  .5f,
-            -.5f,  .5f, -.5f,
-            -.5f,  .5f, -.5f,
-             .5f,  .5f,  .5f,
-             .5f,  .5f, -.5f,
+            -1.0f,  1.0f,  1.0f,
+             1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+             1.0f,  1.0f,  1.0f,
+             1.0f,  1.0f, -1.0f,
             
             // Right Face
-             .5f,  .5f, -.5f,
-             .5f,  .5f,  .5f,
-             .5f, -.5f, -.5f,
-             .5f, -.5f, -.5f,
-             .5f,  .5f,  .5f,
-             .5f, -.5f,  .5f,
+             1.0f,  1.0f, -1.0f,
+             1.0f,  1.0f,  1.0f,
+             1.0f, -1.0f, -1.0f,
+             1.0f, -1.0f, -1.0f,
+             1.0f,  1.0f,  1.0f,
+             1.0f, -1.0f,  1.0f,
             
             // Bottom Face
-            -.5f, -.5f,  .5f,
-             .5f, -.5f,  .5f,
-            -.5f, -.5f, -.5f,
-            -.5f, -.5f, -.5f,
-             .5f, -.5f,  .5f,
-             .5f, -.5f, -.5f,
+            -1.0f, -1.0f,  1.0f,
+             1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
+             1.0f, -1.0f,  1.0f,
+             1.0f, -1.0f, -1.0f,
             
             // Back Face
-             .5f,  .5f,  .5f,
-            -.5f,  .5f,  .5f,
-             .5f, -.5f,  .5f,
-             .5f, -.5f,  .5f,
-            -.5f,  .5f,  .5f,
-            -.5f, -.5f,  .5f,
+             1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+             1.0f, -1.0f,  1.0f,
+             1.0f, -1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
             
             // Left Face
-            -.5f,  .5f,  .5f,
-            -.5f,  .5f, -.5f,
-            -.5f, -.5f,  .5f,
-            -.5f, -.5f,  .5f,
-            -.5f,  .5f, -.5f,
-            -.5f, -.5f, -.5f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
         };
         float[] vertices_pyramid =
         {
             // Front face - 2 triangles
-            0f,  .5f, 0f,
-            -.5f, -.5f, -.5f,
-            .5f, -.5f, -.5f,
+            0f,  1.0f, 0f,
+            -1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
             
             // Right Face
-             0f,  .5f, 0f,
-            .5f, -.5f, .5f,
-            .5f, -.5f, -.5f,
+             0f,  1.0f, 0f,
+            1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, -1.0f,
             
             // Bottom Face
-            -.5f, -.5f, -.5f,
-            -.5f, -.5f, .5f,
-            .5f, -.5f, -.5f,
-            .5f, -.5f, .5f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, 1.0f,
             
             // Back Face
-             0f,  .5f, 0f,
-             -.5f, -.5f, .5f,
+             0f,  1.0f, 0f,
+             -1.0f, -1.0f, 1.0f,
             
             // Left Face
-             0f,  .5f, 0f,
-            -.5f, -.5f, .5f,
-            -.5f, -.5f, -.5f,
+             0f,  1.0f, 0f,
+            -1.0f, -1.0f, 1.0f,
+            -1.0f, -1.0f, -1.0f,
         };
 
 
@@ -178,7 +178,7 @@ namespace ManualGraphics.Game
             {
                 var tri = objects_pyramid[x];
                 tri = new GameObject(vertexShader, fragmentShader, vertices_pyramid);
-                tri.Position = new Vector3(0, 1, -3.0f*(x+1));
+                tri.Position = new Vector3(0, 2, -3.0f*(x+1));
                 objects_pyramid[x] = tri;
             }
             cam = new Camera();
