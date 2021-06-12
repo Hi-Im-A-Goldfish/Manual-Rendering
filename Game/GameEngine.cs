@@ -15,6 +15,7 @@ namespace ManualGraphics.Game
 {
     public class GameEngine : GameWindow
     {
+        Random rnd = new Random();
         public bool IsRunning { get; private set;}
         public GameEngine(
             GameWindowSettings gameWindowSettings,
@@ -116,13 +117,13 @@ namespace ManualGraphics.Game
         float[] vertices_pyramid =
         {
             // Front face - 2 triangles
-            0f,  1.0f, 0f,
+            0f,     1.0f,  0f,
             -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
+            1.0f,  -1.0f, -1.0f,
             
             // Right Face
-             0f,  1.0f, 0f,
-            1.0f, -1.0f, 1.0f,
+            0f,   1.0f,   0f,
+            1.0f, -1.0f,  1.0f,
             1.0f, -1.0f, -1.0f,
             
             // Bottom Face
@@ -148,11 +149,48 @@ namespace ManualGraphics.Game
         public GameObject[] objects_cube = {
             new GameObject(), 
             new GameObject(), 
-            new GameObject()
+            new GameObject(),
+            new GameObject(), 
+            new GameObject(), 
+            new GameObject(), 
+            new GameObject() 
+        };
+        public GameObject[] objects_cube_width = {
+            new GameObject(), 
+            new GameObject(), 
+            new GameObject(),
+            new GameObject(), 
+            new GameObject(), 
+            new GameObject(), 
+            new GameObject() 
         };
         public GameObject[] objects_pyramid = {
-            new GameObject(), 
+             
         };
+
+        public void GetWidth(int pass, GameObject[] source)
+        {
+            string vertexShader =
+                "#version 330\n" +
+                "uniform mat4 mvp;\n" +
+                "in vec3 in_pos;\n" +
+                "void main() { gl_Position = mvp * vec4(in_pos, 1.0); }";
+
+            string fragmentShader = 
+                "#version 330\n" +
+                "void main() { gl_FragColor = vec4(0.2, 0.2, 0.2, 1.0); }\n";
+
+            for(int i = 0; i < source.Count(); i++)
+            {
+                var tri2 = source[i];
+
+                tri2 = new GameObject(vertexShader, fragmentShader, vertices_cube);
+                Console.WriteLine(pass*-2.0f);
+                tri2.Position = new Vector3(-2.0f*pass, Convert.ToSingle(rnd.NextDouble()*1.0), -2.0f*(i+1));
+                source[i] = tri2; 
+            }
+            return;
+        }
 
         protected override void OnLoad()
         {
@@ -165,14 +203,44 @@ namespace ManualGraphics.Game
 
             string fragmentShader = 
                 "#version 330\n" +
-                "void main() { gl_FragColor = vec4(0.8, 0.8, 0.8, 1.0); }\n";
+                "void main() { gl_FragColor = vec4(0.2, 0.2, 0.2, 1.0); }\n";
 
             for(int i = 0; i < objects_cube.Count(); i++)
             {
                 var tri = objects_cube[i];
+
                 tri = new GameObject(vertexShader, fragmentShader, vertices_cube);
-                tri.Position = new Vector3(0, 0, -3.0f*(i+1));
+                tri.Position = new Vector3(0, Convert.ToSingle(rnd.NextDouble()*1.0), -2.0f*(i+1));
                 objects_cube[i] = tri;
+            }
+            int pass = 1;
+            var source = objects_cube_width;
+            for(int i = 0; i < source.Count(); i++)
+            {
+                GetWidth(pass, source);
+                Console.WriteLine("gotwidth {0} {1}", pass, source);
+                if (i == source.Count() - 1)
+                {
+                    Console.WriteLine("if: true");
+                    pass++;
+                    i = 1;
+                    var target = (GameObject[])source.Clone();
+                    source = null;
+                    source = target;
+                    for(int x = 0; x < source.Count(); x++){
+                        Console.WriteLine(x);
+                    }
+                    
+                    target = null;
+
+                    if (pass == 5)
+                    {
+                        Console.WriteLine("Pass if: true");
+                        i = source.Count();
+                    }
+                }else{
+                    Console.WriteLine("If: false");
+                }
             }
             for(int x = 0; x < objects_pyramid.Count(); x++)
             {
@@ -214,7 +282,7 @@ namespace ManualGraphics.Game
             base.OnRenderFrame(args);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.ClearColor(0.2f, 0.2f, 0.8f, 1.0f);
+            GL.ClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
             cam.WorldView = player.WorldToCamera();
             cam.SetSize(Size.X, Size.Y, 0.01f, 100.0f, 65.0f);
@@ -226,10 +294,10 @@ namespace ManualGraphics.Game
                 objects_cube[i].Update(MouseState, KeyboardState);
                 objects_cube[i].Draw(cam);
             }
-            for(int x = 0; x < objects_pyramid.Count(); x++)
+            for(int x = 0; x < objects_cube_width.Count(); x++)
             {
-                objects_pyramid[x].Update(MouseState, KeyboardState);
-                objects_pyramid[x].Draw(cam);
+                objects_cube_width[x].Update(MouseState, KeyboardState);
+                objects_cube_width[x].Draw(cam);
             }
 
             Context.SwapBuffers();
