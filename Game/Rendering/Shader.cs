@@ -47,6 +47,7 @@ namespace ManualGraphics.Game.Rendering
             ProgramID = GL.CreateProgram();
             GL.AttachShader(ProgramID, VertexID);
             GL.AttachShader(ProgramID, FragmentID);
+            
 
             // Binds the matrix to the vertex shader sort of
             GL.BindAttribLocation(ProgramID, 0, "mvp");

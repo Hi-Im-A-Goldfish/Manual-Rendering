@@ -155,42 +155,12 @@ namespace ManualGraphics.Game
             new GameObject(), 
             new GameObject() 
         };
-        public GameObject[] objects_cube_width = {
-            new GameObject(), 
-            new GameObject(), 
-            new GameObject(),
-            new GameObject(), 
-            new GameObject(), 
-            new GameObject(), 
-            new GameObject() 
-        };
+
+        public GameObject[][] objects = new GameObject[20][];
+
         public GameObject[] objects_pyramid = {
              
         };
-
-        public void GetWidth(int pass, GameObject[] source)
-        {
-            string vertexShader =
-                "#version 330\n" +
-                "uniform mat4 mvp;\n" +
-                "in vec3 in_pos;\n" +
-                "void main() { gl_Position = mvp * vec4(in_pos, 1.0); }";
-
-            string fragmentShader = 
-                "#version 330\n" +
-                "void main() { gl_FragColor = vec4(0.2, 0.2, 0.2, 1.0); }\n";
-
-            for(int i = 0; i < source.Count(); i++)
-            {
-                var tri2 = source[i];
-
-                tri2 = new GameObject(vertexShader, fragmentShader, vertices_cube);
-                Console.WriteLine(pass*-2.0f);
-                tri2.Position = new Vector3(-2.0f*pass, Convert.ToSingle(rnd.NextDouble()*1.0), -2.0f*(i+1));
-                source[i] = tri2; 
-            }
-            return;
-        }
 
         protected override void OnLoad()
         {
@@ -199,49 +169,39 @@ namespace ManualGraphics.Game
                 "#version 330\n" +
                 "uniform mat4 mvp;\n" +
                 "in vec3 in_pos;\n" +
-                "void main() { gl_Position = mvp * vec4(in_pos, 1.0); }";
+                "layout (location = 0) in vec3 aPosition;\n" + 
+                "void main() { gl_Position = mvp * vec4(in_pos, 1.0); \n}";
 
             string fragmentShader = 
                 "#version 330\n" +
                 "void main() { gl_FragColor = vec4(0.2, 0.2, 0.2, 1.0); }\n";
 
-            for(int i = 0; i < objects_cube.Count(); i++)
-            {
-                var tri = objects_cube[i];
-
-                tri = new GameObject(vertexShader, fragmentShader, vertices_cube);
-                tri.Position = new Vector3(0, Convert.ToSingle(rnd.NextDouble()*1.0), -2.0f*(i+1));
-                objects_cube[i] = tri;
+            for (int i = 0; i < 20; i++){
+                objects[i] = new GameObject[10];
             }
-            int pass = 1;
-            var source = objects_cube_width;
-            for(int i = 0; i < source.Count(); i++)
-            {
-                GetWidth(pass, source);
-                Console.WriteLine("gotwidth {0} {1}", pass, source);
-                if (i == source.Count() - 1)
-                {
-                    Console.WriteLine("if: true");
-                    pass++;
-                    i = 1;
-                    var target = (GameObject[])source.Clone();
-                    source = null;
-                    source = target;
-                    for(int x = 0; x < source.Count(); x++){
-                        Console.WriteLine(x);
-                    }
-                    
-                    target = null;
-
-                    if (pass == 5)
-                    {
-                        Console.WriteLine("Pass if: true");
-                        i = source.Count();
-                    }
-                }else{
-                    Console.WriteLine("If: false");
+            for (int i = 0; i < 10; i++){
+                for (int x = 0; x < 10; x++){
+                    objects[i][x] = new GameObject();
                 }
             }
+
+            int pass = 1;
+            var source = objects;
+            for(int i = 0; i < source.Count(); i++)
+            {
+                for (int x = 0; x < source[pass-1].Count(); x++){
+                    //Console.WriteLine(i);
+                    //Console.WriteLine(x);
+                    var tri = objects[i][x];
+
+                    tri = new GameObject(vertexShader, fragmentShader, vertices_cube);
+                    tri.Position = new Vector3(-2.0f*(i), Convert.ToSingle(rnd.NextDouble()*1.0), -2.0f*(x+1));
+                    objects[i][x] = tri;
+                }
+                pass++;
+            }
+            Console.WriteLine(objects);
+            
             for(int x = 0; x < objects_pyramid.Count(); x++)
             {
                 var tri = objects_pyramid[x];
@@ -289,15 +249,19 @@ namespace ManualGraphics.Game
             cam.UseViewport();
 
             player.Update(MouseState, KeyboardState);
-            for(int i = 0; i < objects_cube.Count(); i++)
+            /*for(int i = 0; i < objects_cube.Count(); i++)
             {
                 objects_cube[i].Update(MouseState, KeyboardState);
                 objects_cube[i].Draw(cam);
-            }
-            for(int x = 0; x < objects_cube_width.Count(); x++)
+            }*/
+            int pass = 1;
+            for(int i = 0; i < objects.Count(); i++)
             {
-                objects_cube_width[x].Update(MouseState, KeyboardState);
-                objects_cube_width[x].Draw(cam);
+                for (int x = 0; x < objects[pass-1].Count(); x++){
+                    objects[i][x].Update(MouseState, KeyboardState);
+                    objects[i][x].Draw(cam);
+                }
+                pass++;
             }
 
             Context.SwapBuffers();
